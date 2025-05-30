@@ -1,11 +1,13 @@
 extends Control
 
+const DEFAULT_TEXT_SIZE : int = 18
+const HIGHLIGHTED_TEXT_SIZE : int = 30
 @onready var tab_buttons : HBoxContainer = $TabButtons
 @onready var tab_buttons_overlay : HBoxContainer = $TabButtonsOverlay
 @onready var tab_buttons_highlight: Node = $TabButtonsOverlay/HighlightMark
 @onready var pages_container : Control = $TabPages
 
-var current_page = 0
+var current_page :int = 0
 var tween : Tween = null
 var swipe_start_pos : Vector2
 var swipe_threshold : float = 100.0 
@@ -26,6 +28,8 @@ func _ready():
 
 
 func _on_tab_button_pressed(target_index):
+	tab_buttons.get_child(current_page).add_theme_font_size_override("font_size", DEFAULT_TEXT_SIZE)
+	tab_buttons.get_child(target_index).add_theme_font_size_override("font_size", HIGHLIGHTED_TEXT_SIZE)
 	tab_buttons.get_child(current_page).size_flags_stretch_ratio = 1.0
 	tab_buttons.get_child(target_index).size_flags_stretch_ratio = 1.5
 	tab_buttons_overlay.move_child(tab_buttons_highlight, target_index)

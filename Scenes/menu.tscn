@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c5jganvdf1eon"]
+[gd_scene load_steps=14 format=3 uid="uid://c5jganvdf1eon"]
 
 [ext_resource type="Script" uid="uid://ce4mitwj1jgmq" path="res://Scenes/menu.gd" id="1_1rerr"]
 
@@ -11,6 +11,8 @@ border_width_top = 2
 border_width_right = 1
 border_color = Color(0.815686, 0.807843, 0.886275, 1)
 border_blend = true
+
+[sub_resource type="Texture2DRD" id="Texture2DRD_1rerr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cayip"]
 bg_color = Color(0.356863, 0.356863, 0.356863, 1)
@@ -405,15 +407,21 @@ custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
+theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = SubResource("StyleBoxFlat_1rerr")
 theme_override_styles/hover = SubResource("StyleBoxFlat_1rerr")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1rerr")
 theme_override_styles/normal = SubResource("StyleBoxFlat_1rerr")
 text = "Tab 1"
+icon = SubResource("Texture2DRD_1rerr")
+vertical_icon_alignment = 0
 
 [node name="Tab2" type="Button" parent="TabButtons"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = SubResource("StyleBoxFlat_cayip")
 theme_override_styles/hover = SubResource("StyleBoxFlat_cayip")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cayip")
 theme_override_styles/normal = SubResource("StyleBoxFlat_cayip")
@@ -423,6 +431,8 @@ text = "Tab 2"
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = SubResource("StyleBoxFlat_158mb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_158mb")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_158mb")
 theme_override_styles/normal = SubResource("StyleBoxFlat_158mb")
@@ -432,6 +442,8 @@ text = "Tab 3"
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = SubResource("StyleBoxFlat_wwsa2")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wwsa2")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_wwsa2")
 theme_override_styles/normal = SubResource("StyleBoxFlat_wwsa2")
