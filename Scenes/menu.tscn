@@ -61,20 +61,20 @@ grow_vertical = 2
 script = ExtResource("1_1rerr")
 
 [node name="TabPages" type="Control" parent="."]
+clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 1440.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Page1" type="Control" parent="TabPages"]
+custom_minimum_size = Vector2(480, 854)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+size_flags_horizontal = 3
 
 [node name="ColorRect" type="ColorRect" parent="TabPages/Page1"]
 layout_mode = 1
@@ -149,12 +149,13 @@ text = "test
 "
 
 [node name="Page2" type="Control" parent="TabPages"]
+custom_minimum_size = Vector2(480, 854)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_left = 480.0
+offset_right = 960.0
+offset_bottom = 854.0
+size_flags_horizontal = 3
 
 [node name="ColorRect" type="ColorRect" parent="TabPages/Page2"]
 layout_mode = 1
@@ -230,12 +231,13 @@ text = "test
 "
 
 [node name="Page3" type="Control" parent="TabPages"]
+custom_minimum_size = Vector2(480, 854)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_left = 960.0
+offset_right = 1440.0
+offset_bottom = 854.0
+size_flags_horizontal = 3
 
 [node name="ColorRect" type="ColorRect" parent="TabPages/Page3"]
 layout_mode = 1
@@ -311,12 +313,13 @@ text = "test
 "
 
 [node name="Page4" type="Control" parent="TabPages"]
+custom_minimum_size = Vector2(480, 854)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_left = 1440.0
+offset_right = 1920.0
+offset_bottom = 854.0
+size_flags_horizontal = 3
 
 [node name="ColorRect" type="ColorRect" parent="TabPages/Page4"]
 layout_mode = 1

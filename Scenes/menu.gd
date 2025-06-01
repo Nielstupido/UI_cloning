@@ -1,5 +1,6 @@
 extends Control
 
+const EMPTY : String = ""
 const DEFAULT_TEXT_SIZE : int = 18
 const HIGHLIGHTED_TEXT_SIZE : int = 30
 const DEFAULT_TAB_RATIO : float = 1.0
@@ -9,24 +10,31 @@ const HIGHLIGHTED_TAB_RATIO : float = 1.5
 @onready var tab_buttons_highlight: Node = $TabButtonsOverlay/HighlightMark
 @onready var pages_container : Control = $TabPages
 
-var current_page :int = 0
-var tween : Tween = null
-var swipe_start_pos : Vector2
-var swipe_threshold : float = 50.0 
-var swipe_direction_locked = null
-var direction_lock_threshold := 10
+var swipe_start_pos := Vector2.ZERO
+var swipe_direction_locked : String = EMPTY
+var is_dragging : bool = false
+var page_width : float = 0
+var current_page : int = 0
+var swipe_threshold : int = 50  # Minimum swipe distance to trigger page change
+var direction_lock_threshold : int = 10  # Minimum movement to lock direction
+var tween : Tween
 
 
 func _ready():
+	var page_width = get_viewport_rect().size.x
+	var page_height = get_viewport_rect().size.y
+	var page_count = pages_container.get_child_count()
+	pages_container.size = Vector2(page_width * page_count, page_height)
+	
+	for i in range(page_count):
+		var page = pages_container.get_child(i)
+		page.size = Vector2(page_width, page_height)
+		page.position = Vector2(i * page_width, 0)
+	
 	# Hook up tab button signals
 	for i in range(tab_buttons.get_child_count()):
 		var button = tab_buttons.get_child(i)
 		button.pressed.connect(_on_tab_button_pressed.bind(i))
-	
-	# Show only the first page at start
-	for i in range(pages_container.get_child_count()):
-		var page = pages_container.get_child(i)
-		page.visible = (i == current_page)
 	
 	_on_tab_button_pressed(0)
 
@@ -35,28 +43,46 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.pressed:
 			swipe_start_pos = event.position
-			swipe_direction_locked = null  # Reset lock on new touch
+			swipe_direction_locked = EMPTY
+			is_dragging = true
+			page_width = get_viewport_rect().size.x
 		else:
-			# On release
+			is_dragging = false
 			if swipe_direction_locked == "horizontal":
 				var delta = event.position - swipe_start_pos
-				if abs(delta.x) > swipe_threshold:
-					if delta.x < 0 and current_page < pages_container.get_child_count() - 1:
-						_on_tab_button_pressed(current_page + 1)  # Swipe left
-					elif delta.x > 0 and current_page > 0:
-						_on_tab_button_pressed(current_page - 1)  # Swipe right
+				var swipe_amount = delta.x
+				
+				if abs(swipe_amount) > swipe_threshold:
+					if swipe_amount < 0 and current_page < pages_container.get_child_count() - 1:
+						current_page += 1
+					elif swipe_amount > 0 and current_page > 0:
+						current_page -= 1
+				
+				snap_to_page(current_page)
 	
-	elif event is InputEventScreenDrag:
-		if swipe_direction_locked == null:
-			var delta = event.position - swipe_start_pos
+	elif event is InputEventScreenDrag and is_dragging:
+		var delta = event.position - swipe_start_pos
+	
+		if swipe_direction_locked == EMPTY:
 			if abs(delta.x) > direction_lock_threshold or abs(delta.y) > direction_lock_threshold:
-				swipe_direction_locked = "horizontal" if abs(delta.x) > abs(delta.y) else "vertical"
-		
+				var direction_bias = 1.5
+				if abs(delta.x) > direction_bias * abs(delta.y):
+					swipe_direction_locked = "horizontal"
+				elif abs(delta.y) > direction_bias * abs(delta.x):
+					swipe_direction_locked = "vertical"
+	
 		if swipe_direction_locked == "horizontal":
-			# Handle horizontal swipe animation preview here...
-			pass
-		elif swipe_direction_locked == "vertical":
-			pass
+			var offset = -current_page * page_width + delta.x
+			pages_container.position.x = offset
+
+
+func snap_to_page(page_index: int) -> void:
+	var target_x = -page_index * page_width
+	if tween:
+		tween.kill()
+	
+	tween = get_tree().create_tween()
+	tween.tween_property(pages_container, "position:x", target_x, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 
 func _on_tab_button_pressed(target_index : int) -> void:
@@ -77,10 +103,10 @@ func _on_tab_button_pressed(target_index : int) -> void:
 	new_page.position.x = direction * pages_container.size.x
 	old_page.position.x = 0
 	
-	if tween and tween.is_running():
+	if tween:
 		tween.kill()
 	
-	tween = create_tween()
+	tween = get_tree().create_tween()
 	tween.tween_property(old_page, "position:x", -direction * pages_container.size.x, 0.05).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_property(new_page, "position:x", 0, 0.05).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_callback(Callable(self, "_on_tab_animation_finished").bind(old_page))
