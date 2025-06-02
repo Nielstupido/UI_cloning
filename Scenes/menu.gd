@@ -14,10 +14,12 @@ var swipe_start_pos := Vector2.ZERO
 var swipe_direction_locked : String = EMPTY
 var is_dragging : bool = false
 var page_width : float = 0
-var current_page : int = 0
+var current_page_index : int = 0
+var next_page_index : int = 0
 var swipe_threshold : int = 50  # Minimum swipe distance to trigger page change
 var direction_lock_threshold : int = 10  # Minimum movement to lock direction
 var tween : Tween
+var current_scroll_container : Control
 
 
 func _ready():
@@ -40,6 +42,8 @@ func _ready():
 
 
 func _input(event: InputEvent) -> void:
+	current_scroll_container = pages_container.get_child(current_page_index).get_node("ScrollContainer")
+	
 	if event is InputEventScreenTouch:
 		if event.pressed:
 			swipe_start_pos = event.position
@@ -53,12 +57,12 @@ func _input(event: InputEvent) -> void:
 				var swipe_amount = delta.x
 				
 				if abs(swipe_amount) > swipe_threshold:
-					if swipe_amount < 0 and current_page < pages_container.get_child_count() - 1:
-						current_page += 1
-					elif swipe_amount > 0 and current_page > 0:
-						current_page -= 1
+					if swipe_amount < 0 and current_page_index < pages_container.get_child_count() - 1:
+						next_page_index = current_page_index + 1
+					elif swipe_amount > 0 and current_page_index > 0:
+						next_page_index = current_page_index - 1
 				
-				snap_to_page(current_page)
+				snap_to_page(next_page_index)
 	
 	elif event is InputEventScreenDrag and is_dragging:
 		var delta = event.position - swipe_start_pos
@@ -72,45 +76,31 @@ func _input(event: InputEvent) -> void:
 					swipe_direction_locked = "vertical"
 	
 		if swipe_direction_locked == "horizontal":
-			var offset = -current_page * page_width + delta.x
+			var offset = -current_page_index * page_width + delta.x
 			pages_container.position.x = offset
+			current_scroll_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		else:
+			current_scroll_container.mouse_filter = Control.MOUSE_FILTER_PASS
 
 
 func snap_to_page(page_index: int) -> void:
 	var target_x = -page_index * page_width
+	_animate_tab_icon(page_index)
+	_animate_tab_highlight(page_index)
+	
 	if tween:
 		tween.kill()
 	
 	tween = get_tree().create_tween()
 	tween.tween_property(pages_container, "position:x", target_x, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	current_page_index = page_index
 
 
 func _on_tab_button_pressed(target_index : int) -> void:
-	_animate_tab_icon(target_index)
-	tab_buttons.get_child(current_page).size_flags_stretch_ratio = DEFAULT_TAB_RATIO
-	tab_buttons.get_child(target_index).size_flags_stretch_ratio = HIGHLIGHTED_TAB_RATIO
-	tab_buttons_overlay.move_child(tab_buttons_highlight, target_index)
-	
-	if target_index == current_page:
+	if target_index == current_page_index:
 		return
 	
-	var direction = 1 if target_index > current_page else -1
-	
-	var old_page = pages_container.get_child(current_page)
-	var new_page = pages_container.get_child(target_index)
-	
-	new_page.visible = true
-	new_page.position.x = direction * pages_container.size.x
-	old_page.position.x = 0
-	
-	if tween:
-		tween.kill()
-	
-	tween = get_tree().create_tween()
-	tween.tween_property(old_page, "position:x", -direction * pages_container.size.x, 0.05).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(new_page, "position:x", 0, 0.05).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_callback(Callable(self, "_on_tab_animation_finished").bind(old_page))
-	current_page = target_index
+	snap_to_page(target_index)
 
 
 func _on_tab_animation_finished(old_page : Node) -> void:
@@ -118,11 +108,17 @@ func _on_tab_animation_finished(old_page : Node) -> void:
 	old_page.position.x = 0 
 
 
+func _animate_tab_highlight(target_index) -> void:
+	tab_buttons.get_child(current_page_index).size_flags_stretch_ratio = DEFAULT_TAB_RATIO
+	tab_buttons.get_child(target_index).size_flags_stretch_ratio = HIGHLIGHTED_TAB_RATIO
+	tab_buttons_overlay.move_child(tab_buttons_highlight, target_index)
+
+
 func _animate_tab_icon(target_index : int) -> void:
-	var old_button : Button = tab_buttons.get_child(current_page)
+	var old_button : Button = tab_buttons.get_child(current_page_index)
 	var new_button : Button = tab_buttons.get_child(target_index)
 	
-	if target_index != current_page:
+	if target_index != current_page_index:
 		get_tree().create_tween().tween_method(
 			func(value):
 				old_button.add_theme_font_size_override("font_size", round(value)),
