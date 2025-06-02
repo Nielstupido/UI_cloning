@@ -56,6 +56,8 @@ func _input(event: InputEvent) -> void:
 				var delta = event.position - swipe_start_pos
 				var swipe_amount = delta.x
 				
+				next_page_index = current_page_index
+				
 				if abs(swipe_amount) > swipe_threshold:
 					if swipe_amount < 0 and current_page_index < pages_container.get_child_count() - 1:
 						next_page_index = current_page_index + 1
