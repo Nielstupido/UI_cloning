@@ -9,7 +9,6 @@ const DEFAULT_TAB_RATIO : float = 1.0
 const HIGHLIGHTED_TAB_RATIO : float = 1.5
 const DIRECTION_BIAS : int = 5
 const DIRECTION_LOCK_THRESHOLD : int = 10
-const SWIPE_THRESHOLD : int = 50
 @onready var tab_buttons : HBoxContainer = $TabButtons
 @onready var tab_buttons_overlay : HBoxContainer = $TabButtonsOverlay
 @onready var tab_buttons_highlight: Node = $TabButtonsOverlay/HighlightMark
@@ -23,6 +22,7 @@ var current_page_index : int = 0
 var next_page_index : int = 0
 var tween : Tween
 var current_scroll_container : Control
+var swipe_threshold : float
 
 
 func _ready():
@@ -30,6 +30,7 @@ func _ready():
 	var page_height = get_viewport_rect().size.y
 	var page_count = pages_container.get_child_count()
 	pages_container.size = Vector2(page_width * page_count, page_height)
+	swipe_threshold = get_viewport_rect().size.x * 0.5
 	
 	for i in range(page_count):
 		var page = pages_container.get_child(i)
@@ -61,7 +62,7 @@ func _input(event: InputEvent) -> void:
 				
 				next_page_index = current_page_index
 				
-				if abs(swipe_amount) > SWIPE_THRESHOLD:
+				if abs(swipe_amount) > swipe_threshold:
 					if swipe_amount < 0 and current_page_index < pages_container.get_child_count() - 1:
 						next_page_index = current_page_index + 1
 					elif swipe_amount > 0 and current_page_index > 0:
