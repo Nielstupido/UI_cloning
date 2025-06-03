@@ -1,10 +1,15 @@
 extends Control
 
+const HORIZONTAL : String = "horizontal"
+const VERTICAL : String = "vertical"
 const EMPTY : String = ""
 const DEFAULT_TEXT_SIZE : int = 18
 const HIGHLIGHTED_TEXT_SIZE : int = 30
 const DEFAULT_TAB_RATIO : float = 1.0
 const HIGHLIGHTED_TAB_RATIO : float = 1.5
+const DIRECTION_BIAS : int = 5
+const DIRECTION_LOCK_THRESHOLD : int = 10
+const SWIPE_THRESHOLD : int = 50
 @onready var tab_buttons : HBoxContainer = $TabButtons
 @onready var tab_buttons_overlay : HBoxContainer = $TabButtonsOverlay
 @onready var tab_buttons_highlight: Node = $TabButtonsOverlay/HighlightMark
@@ -16,8 +21,6 @@ var is_dragging : bool = false
 var page_width : float = 0
 var current_page_index : int = 0
 var next_page_index : int = 0
-var swipe_threshold : int = 50  # Minimum swipe distance to trigger page change
-var direction_lock_threshold : int = 10  # Minimum movement to lock direction
 var tween : Tween
 var current_scroll_container : Control
 
@@ -52,13 +55,13 @@ func _input(event: InputEvent) -> void:
 			page_width = get_viewport_rect().size.x
 		else:
 			is_dragging = false
-			if swipe_direction_locked == "horizontal":
+			if swipe_direction_locked == HORIZONTAL:
 				var delta = event.position - swipe_start_pos
 				var swipe_amount = delta.x
 				
 				next_page_index = current_page_index
 				
-				if abs(swipe_amount) > swipe_threshold:
+				if abs(swipe_amount) > SWIPE_THRESHOLD:
 					if swipe_amount < 0 and current_page_index < pages_container.get_child_count() - 1:
 						next_page_index = current_page_index + 1
 					elif swipe_amount > 0 and current_page_index > 0:
@@ -70,15 +73,20 @@ func _input(event: InputEvent) -> void:
 		var delta = event.position - swipe_start_pos
 	
 		if swipe_direction_locked == EMPTY:
-			if abs(delta.x) > direction_lock_threshold or abs(delta.y) > direction_lock_threshold:
-				var direction_bias = 1.5
-				if abs(delta.x) > direction_bias * abs(delta.y):
-					swipe_direction_locked = "horizontal"
-				elif abs(delta.y) > direction_bias * abs(delta.x):
-					swipe_direction_locked = "vertical"
+			if abs(delta.x) > DIRECTION_LOCK_THRESHOLD or abs(delta.y) > DIRECTION_LOCK_THRESHOLD:
+				if abs(delta.x) > DIRECTION_BIAS * abs(delta.y):
+					swipe_direction_locked = HORIZONTAL
+				elif abs(delta.y) > DIRECTION_BIAS * abs(delta.x):
+					swipe_direction_locked = VERTICAL
 	
-		if swipe_direction_locked == "horizontal":
+		if swipe_direction_locked == HORIZONTAL:
 			var offset = -current_page_index * page_width + delta.x
+			
+			# Clamp when swiping beyond first and last pages
+			var min_offset = - ((pages_container.get_child_count() - 1) * page_width) - 50.0
+			var max_offset = 50.0
+			offset = clamp(offset, min_offset, max_offset)
+			
 			pages_container.position.x = offset
 			current_scroll_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		else:
