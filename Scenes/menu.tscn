@@ -1,8 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://c5jganvdf1eon"]
+[gd_scene load_steps=15 format=3 uid="uid://c5jganvdf1eon"]
 
 [ext_resource type="Script" uid="uid://ce4mitwj1jgmq" path="res://Scenes/menu.gd" id="1_1rerr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhh6f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cayip"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1rerr"]
 bg_color = Color(0.355314, 0.355314, 0.355314, 1)
@@ -60,352 +62,370 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1rerr")
 
-[node name="TabPages" type="Control" parent="."]
-clip_contents = true
+[node name="MainContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1440.0
+offset_right = 1349.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Page1" type="Control" parent="TabPages"]
-custom_minimum_size = Vector2(480, 854)
-layout_mode = 1
-anchors_preset = 0
+[node name="TabPages" type="Control" parent="MainContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Page1" type="PanelContainer" parent="MainContainer/TabPages"]
+layout_mode = 2
+offset_right = 480.0
+offset_bottom = 749.0
 size_flags_horizontal = 3
 
-[node name="ColorRect" type="ColorRect" parent="TabPages/Page1"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ColorRect" type="ColorRect" parent="MainContainer/TabPages/Page1"]
+layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TabPages/Page1"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ScrollContainer" type="ScrollContainer" parent="MainContainer/TabPages/Page1"]
+layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabPages/Page1/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/TabPages/Page1/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 100
 
-[node name="Label" type="Label" parent="TabPages/Page1/ScrollContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label2" type="Label" parent="TabPages/Page1/ScrollContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label3" type="Label" parent="TabPages/Page1/ScrollContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label4" type="Label" parent="TabPages/Page1/ScrollContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label5" type="Label" parent="TabPages/Page1/ScrollContainer/VBoxContainer"]
+[node name="Label5" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label6" type="Label" parent="TabPages/Page1/ScrollContainer/VBoxContainer"]
+[node name="Label6" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label7" type="Label" parent="TabPages/Page1/ScrollContainer/VBoxContainer"]
+[node name="Label7" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label8" type="Label" parent="TabPages/Page1/ScrollContainer/VBoxContainer"]
+[node name="Label8" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Page2" type="Control" parent="TabPages"]
-custom_minimum_size = Vector2(480, 854)
-layout_mode = 1
-anchors_preset = 0
-offset_left = 480.0
-offset_right = 960.0
+[node name="Label9" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
+text = "test
+"
+
+[node name="Label10" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
+text = "test
+"
+
+[node name="Label11" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
+text = "test
+"
+
+[node name="Label12" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
+text = "test
+"
+
+[node name="Label13" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
+text = "test
+"
+
+[node name="Label14" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
+text = "test
+"
+
+[node name="Label15" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
+text = "test
+"
+
+[node name="Label16" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
+text = "test
+"
+
+[node name="Label17" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
+text = "test
+"
+
+[node name="Label18" type="Label" parent="MainContainer/TabPages/Page1/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
+text = "test
+"
+
+[node name="Page2" type="PanelContainer" parent="MainContainer/TabPages"]
+layout_mode = 2
+offset_left = 484.0
+offset_right = 964.0
 offset_bottom = 854.0
 size_flags_horizontal = 3
 
-[node name="ColorRect" type="ColorRect" parent="TabPages/Page2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ColorRect" type="ColorRect" parent="MainContainer/TabPages/Page2"]
+layout_mode = 2
 color = Color(1, 0.32549, 1, 1)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TabPages/Page2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ScrollContainer" type="ScrollContainer" parent="MainContainer/TabPages/Page2"]
+layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabPages/Page2/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/TabPages/Page2/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 100
 
-[node name="Label" type="Label" parent="TabPages/Page2/ScrollContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MainContainer/TabPages/Page2/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label2" type="Label" parent="TabPages/Page2/ScrollContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="MainContainer/TabPages/Page2/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label3" type="Label" parent="TabPages/Page2/ScrollContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="MainContainer/TabPages/Page2/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label4" type="Label" parent="TabPages/Page2/ScrollContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="MainContainer/TabPages/Page2/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label5" type="Label" parent="TabPages/Page2/ScrollContainer/VBoxContainer"]
+[node name="Label5" type="Label" parent="MainContainer/TabPages/Page2/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label6" type="Label" parent="TabPages/Page2/ScrollContainer/VBoxContainer"]
+[node name="Label6" type="Label" parent="MainContainer/TabPages/Page2/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label7" type="Label" parent="TabPages/Page2/ScrollContainer/VBoxContainer"]
+[node name="Label7" type="Label" parent="MainContainer/TabPages/Page2/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label8" type="Label" parent="TabPages/Page2/ScrollContainer/VBoxContainer"]
+[node name="Label8" type="Label" parent="MainContainer/TabPages/Page2/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Page3" type="Control" parent="TabPages"]
-custom_minimum_size = Vector2(480, 854)
-layout_mode = 1
-anchors_preset = 0
-offset_left = 960.0
-offset_right = 1440.0
+[node name="Page3" type="PanelContainer" parent="MainContainer/TabPages"]
+layout_mode = 2
+offset_left = 968.0
+offset_right = 1448.0
 offset_bottom = 854.0
 size_flags_horizontal = 3
 
-[node name="ColorRect" type="ColorRect" parent="TabPages/Page3"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ColorRect" type="ColorRect" parent="MainContainer/TabPages/Page3"]
+layout_mode = 2
 color = Color(0.50642, 0.747726, 0.328254, 1)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TabPages/Page3"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ScrollContainer" type="ScrollContainer" parent="MainContainer/TabPages/Page3"]
+layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabPages/Page3/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/TabPages/Page3/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 100
 
-[node name="Label" type="Label" parent="TabPages/Page3/ScrollContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MainContainer/TabPages/Page3/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label2" type="Label" parent="TabPages/Page3/ScrollContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="MainContainer/TabPages/Page3/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label3" type="Label" parent="TabPages/Page3/ScrollContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="MainContainer/TabPages/Page3/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label4" type="Label" parent="TabPages/Page3/ScrollContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="MainContainer/TabPages/Page3/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label5" type="Label" parent="TabPages/Page3/ScrollContainer/VBoxContainer"]
+[node name="Label5" type="Label" parent="MainContainer/TabPages/Page3/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label6" type="Label" parent="TabPages/Page3/ScrollContainer/VBoxContainer"]
+[node name="Label6" type="Label" parent="MainContainer/TabPages/Page3/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label7" type="Label" parent="TabPages/Page3/ScrollContainer/VBoxContainer"]
+[node name="Label7" type="Label" parent="MainContainer/TabPages/Page3/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label8" type="Label" parent="TabPages/Page3/ScrollContainer/VBoxContainer"]
+[node name="Label8" type="Label" parent="MainContainer/TabPages/Page3/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Page4" type="Control" parent="TabPages"]
-custom_minimum_size = Vector2(480, 854)
-layout_mode = 1
-anchors_preset = 0
-offset_left = 1440.0
-offset_right = 1920.0
+[node name="Page4" type="PanelContainer" parent="MainContainer/TabPages"]
+layout_mode = 2
+offset_left = 1452.0
+offset_right = 1932.0
 offset_bottom = 854.0
 size_flags_horizontal = 3
 
-[node name="ColorRect" type="ColorRect" parent="TabPages/Page4"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ColorRect" type="ColorRect" parent="MainContainer/TabPages/Page4"]
+layout_mode = 2
 color = Color(0.845023, 0.416359, 0.643479, 1)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TabPages/Page4"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ScrollContainer" type="ScrollContainer" parent="MainContainer/TabPages/Page4"]
+layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabPages/Page4/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/TabPages/Page4/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 100
 
-[node name="Label" type="Label" parent="TabPages/Page4/ScrollContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MainContainer/TabPages/Page4/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label2" type="Label" parent="TabPages/Page4/ScrollContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="MainContainer/TabPages/Page4/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label3" type="Label" parent="TabPages/Page4/ScrollContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="MainContainer/TabPages/Page4/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label4" type="Label" parent="TabPages/Page4/ScrollContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="MainContainer/TabPages/Page4/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label5" type="Label" parent="TabPages/Page4/ScrollContainer/VBoxContainer"]
+[node name="Label5" type="Label" parent="MainContainer/TabPages/Page4/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label6" type="Label" parent="TabPages/Page4/ScrollContainer/VBoxContainer"]
+[node name="Label6" type="Label" parent="MainContainer/TabPages/Page4/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label7" type="Label" parent="TabPages/Page4/ScrollContainer/VBoxContainer"]
+[node name="Label7" type="Label" parent="MainContainer/TabPages/Page4/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="Label8" type="Label" parent="TabPages/Page4/ScrollContainer/VBoxContainer"]
+[node name="Label8" type="Label" parent="MainContainer/TabPages/Page4/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_xhh6f")
 text = "test
 "
 
-[node name="TabButtons" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -100.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="TabButtonsContainer" type="PanelContainer" parent="MainContainer"]
+custom_minimum_size = Vector2(480, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_cayip")
+
+[node name="TabButtons" type="HBoxContainer" parent="MainContainer/TabButtonsContainer"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Tab1" type="Button" parent="TabButtons"]
+[node name="Tab1" type="Button" parent="MainContainer/TabButtonsContainer/TabButtons"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -419,7 +439,7 @@ text = "Tab 1"
 icon = SubResource("Texture2DRD_1rerr")
 vertical_icon_alignment = 0
 
-[node name="Tab2" type="Button" parent="TabButtons"]
+[node name="Tab2" type="Button" parent="MainContainer/TabButtonsContainer/TabButtons"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -430,7 +450,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_cayip")
 theme_override_styles/normal = SubResource("StyleBoxFlat_cayip")
 text = "Tab 2"
 
-[node name="Tab3" type="Button" parent="TabButtons"]
+[node name="Tab3" type="Button" parent="MainContainer/TabButtonsContainer/TabButtons"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -441,7 +461,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_158mb")
 theme_override_styles/normal = SubResource("StyleBoxFlat_158mb")
 text = "Tab 3"
 
-[node name="Tab4" type="Button" parent="TabButtons"]
+[node name="Tab4" type="Button" parent="MainContainer/TabButtonsContainer/TabButtons"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -452,19 +472,12 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_wwsa2")
 theme_override_styles/normal = SubResource("StyleBoxFlat_wwsa2")
 text = "Tab 4"
 
-[node name="TabButtonsOverlay" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -100.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="TabButtonsOverlay" type="HBoxContainer" parent="MainContainer/TabButtonsContainer"]
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="HighlightMark" type="Button" parent="TabButtonsOverlay"]
+[node name="HighlightMark" type="Button" parent="MainContainer/TabButtonsContainer/TabButtonsOverlay"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -474,7 +487,7 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_1rerr")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_xhh6f")
 theme_override_styles/normal = SubResource("StyleBoxFlat_jsrd8")
 
-[node name="Placeholder1" type="Button" parent="TabButtonsOverlay"]
+[node name="Placeholder1" type="Button" parent="MainContainer/TabButtonsContainer/TabButtonsOverlay"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -483,7 +496,7 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_158mb")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_wwsa2")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_jsrd8")
 
-[node name="Placeholder2" type="Button" parent="TabButtonsOverlay"]
+[node name="Placeholder2" type="Button" parent="MainContainer/TabButtonsContainer/TabButtonsOverlay"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -492,7 +505,7 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_158mb")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_wwsa2")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_jsrd8")
 
-[node name="Placeholder3" type="Button" parent="TabButtonsOverlay"]
+[node name="Placeholder3" type="Button" parent="MainContainer/TabButtonsContainer/TabButtonsOverlay"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
