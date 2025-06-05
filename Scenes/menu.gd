@@ -33,7 +33,7 @@ func _ready():
 	var page_count = tab_pages.get_child_count()
 	$MainContainer.size = Vector2(page_width * page_count, page_height)
 	tab_buttons_container.custom_minimum_size = Vector2(page_width, 100.0)
-	swipe_threshold = get_viewport_rect().size.x * 0.5
+	swipe_threshold = get_viewport_rect().size.x * 0.4
 	
 	for i in range(page_count):
 		var page = tab_pages.get_child(i)
@@ -80,7 +80,7 @@ func _input(event: InputEvent) -> void:
 					swipe_direction_locked = HORIZONTAL
 				elif abs(delta.y) > DIRECTION_BIAS * abs(delta.x):
 					swipe_direction_locked = VERTICAL
-		
+		 
 		if swipe_direction_locked == HORIZONTAL:
 			var offset_x = delta.x
 			
@@ -104,7 +104,7 @@ func snap_to_page(page_index: int) -> void:
 		tween.kill()
 	
 	tween = get_tree().create_tween()
-	tween.tween_property(tab_pages, "position:x", target_x, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(tab_pages, "position:x", target_x, 0.5).set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
 	current_page_index = page_index
 
 
