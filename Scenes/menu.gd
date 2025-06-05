@@ -9,6 +9,7 @@ const DEFAULT_TAB_RATIO : float = 1.0
 const HIGHLIGHTED_TAB_RATIO : float = 1.5
 const DIRECTION_BIAS : int = 5
 const DIRECTION_LOCK_THRESHOLD : int = 10
+const DRAG_RESISTANCE : float = 0.35
 @onready var tab_buttons : HBoxContainer = $MainContainer/TabButtonsContainer/TabButtons
 @onready var tab_buttons_overlay : HBoxContainer = $MainContainer/TabButtonsContainer/TabButtonsOverlay
 @onready var tab_buttons_highlight: Node = $MainContainer/TabButtonsContainer/TabButtonsOverlay/HighlightMark
@@ -61,7 +62,6 @@ func _input(event: InputEvent) -> void:
 			if swipe_direction_locked == HORIZONTAL:
 				var delta = event.position - swipe_start_pos
 				var swipe_amount = delta.x
-				
 				next_page_index = current_page_index
 				
 				if abs(swipe_amount) > swipe_threshold:
@@ -74,22 +74,21 @@ func _input(event: InputEvent) -> void:
 	
 	elif event is InputEventScreenDrag and is_dragging:
 		var delta = event.position - swipe_start_pos
-	
 		if swipe_direction_locked == EMPTY:
 			if abs(delta.x) > DIRECTION_LOCK_THRESHOLD or abs(delta.y) > DIRECTION_LOCK_THRESHOLD:
 				if abs(delta.x) > DIRECTION_BIAS * abs(delta.y):
 					swipe_direction_locked = HORIZONTAL
 				elif abs(delta.y) > DIRECTION_BIAS * abs(delta.x):
 					swipe_direction_locked = VERTICAL
-	
+		
 		if swipe_direction_locked == HORIZONTAL:
-			var offset = -current_page_index * page_width + delta.x
+			var offset_x = delta.x
 			
-			## Clamp when swiping beyond first and last pages
-			#var min_offset = - ((tab_pages.get_child_count() - 1) * page_width) - 50.0
-			#var max_offset = 50.0
-			#offset = clamp(offset, min_offset, max_offset)
+			if ((current_page_index == 0 and offset_x > 0) or 
+					((current_page_index == tab_pages.get_child_count() - 1) and offset_x < 0)):
+				offset_x *= DRAG_RESISTANCE 
 			
+			var offset = -current_page_index * page_width + offset_x
 			tab_pages.position.x = offset
 			current_scroll_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		else:
@@ -105,7 +104,7 @@ func snap_to_page(page_index: int) -> void:
 		tween.kill()
 	
 	tween = get_tree().create_tween()
-	tween.tween_property(tab_pages, "position:x", target_x, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(tab_pages, "position:x", target_x, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	current_page_index = page_index
 
 
