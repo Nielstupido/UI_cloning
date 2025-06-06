@@ -1,5 +1,6 @@
 extends Control
 
+
 const HORIZONTAL : String = "horizontal"
 const VERTICAL : String = "vertical"
 const EMPTY : String = ""
@@ -10,11 +11,11 @@ const HIGHLIGHTED_TAB_RATIO : float = 1.5
 const DIRECTION_BIAS : int = 5
 const DIRECTION_LOCK_THRESHOLD : int = 10
 const DRAG_RESISTANCE : float = 0.35
+const NOR_DRAG_RESISTANCE : float = 0.6
 @onready var tab_buttons : HBoxContainer = $MainContainer/TabButtonsContainer/TabButtons
-@onready var tab_buttons_overlay : HBoxContainer = $MainContainer/TabButtonsContainer/TabButtonsOverlay
-@onready var tab_buttons_highlight: Node = $MainContainer/TabButtonsContainer/TabButtonsOverlay/HighlightMark
+@onready var tab_highlight : Button = $MainContainer/TabButtonsContainer/TabHighlight
 @onready var tab_pages : Control = $MainContainer/TabPages
-@onready var tab_buttons_container : PanelContainer = $MainContainer/TabButtonsContainer
+@onready var tab_buttons_container : Control = $MainContainer/TabButtonsContainer
 
 var swipe_start_pos := Vector2.ZERO
 var swipe_direction_locked : String = EMPTY
@@ -22,7 +23,6 @@ var is_dragging : bool = false
 var page_width : float = 0
 var current_page_index : int = 0
 var next_page_index : int = 0
-var tween : Tween
 var current_scroll_container : Control
 var swipe_threshold : float
 
@@ -33,7 +33,7 @@ func _ready():
 	var page_count = tab_pages.get_child_count()
 	$MainContainer.size = Vector2(page_width * page_count, page_height)
 	tab_buttons_container.custom_minimum_size = Vector2(page_width, 100.0)
-	swipe_threshold = get_viewport_rect().size.x * 0.4
+	swipe_threshold = get_viewport_rect().size.x * 0.7
 	
 	for i in range(page_count):
 		var page = tab_pages.get_child(i)
@@ -87,24 +87,41 @@ func _input(event: InputEvent) -> void:
 			if ((current_page_index == 0 and offset_x > 0) or 
 					((current_page_index == tab_pages.get_child_count() - 1) and offset_x < 0)):
 				offset_x *= DRAG_RESISTANCE 
+			else:
+				offset_x *= NOR_DRAG_RESISTANCE
 			
-			var offset = -current_page_index * page_width + offset_x
-			tab_pages.position.x = offset
+			var page_offset = -current_page_index * page_width + offset_x
+			tab_pages.position.x = page_offset
+			
+			if (current_page_index == 0 and offset_x < 0 or 
+					(current_page_index == tab_pages.get_child_count() - 1) and offset_x > 0 or 
+					current_page_index != 0 and (current_page_index != tab_pages.get_child_count() - 1)):
+				tab_highlight.position.x = abs(page_offset / 4)
+			
 			current_scroll_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		else:
 			current_scroll_container.mouse_filter = Control.MOUSE_FILTER_PASS
 
 
 func snap_to_page(page_index: int) -> void:
-	var target_x = -page_index * page_width
 	_animate_tab_icon(page_index)
-	_animate_tab_highlight(page_index)
+	await get_tree().process_frame
+	await get_tree().process_frame
 	
-	if tween:
-		tween.kill()
+	var page_target_x = -page_index * page_width
+	var highlight_target_x = tab_buttons.get_child(page_index).position.x
 	
-	tween = get_tree().create_tween()
-	tween.tween_property(tab_pages, "position:x", target_x, 0.5).set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
+	get_tree().create_tween().tween_property(
+			tab_pages, 
+			"position:x", 
+			page_target_x, 
+			0.5).set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
+	get_tree().create_tween().tween_property(
+			tab_highlight, 
+			"position:x", 
+			highlight_target_x, 
+			0.5).set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
+	
 	current_page_index = page_index
 
 
@@ -115,20 +132,11 @@ func _on_tab_button_pressed(target_index : int) -> void:
 	snap_to_page(target_index)
 
 
-func _on_tab_animation_finished(old_page : Node) -> void:
-	old_page.visible = false
-	old_page.position.x = 0 
-
-
-func _animate_tab_highlight(target_index) -> void:
-	tab_buttons.get_child(current_page_index).size_flags_stretch_ratio = DEFAULT_TAB_RATIO
-	tab_buttons.get_child(target_index).size_flags_stretch_ratio = HIGHLIGHTED_TAB_RATIO
-	tab_buttons_overlay.move_child(tab_buttons_highlight, target_index)
-
-
-func _animate_tab_icon(target_index : int) -> void:
+func _animate_tab_icon(target_index : int) -> void: 
 	var old_button : Button = tab_buttons.get_child(current_page_index)
 	var new_button : Button = tab_buttons.get_child(target_index)
+	tab_buttons.get_child(current_page_index).size_flags_stretch_ratio = DEFAULT_TAB_RATIO
+	tab_buttons.get_child(target_index).size_flags_stretch_ratio = HIGHLIGHTED_TAB_RATIO
 	
 	if target_index != current_page_index:
 		get_tree().create_tween().tween_method(
