@@ -96,7 +96,21 @@ func _input(event: InputEvent) -> void:
 			if (current_page_index == 0 and offset_x < 0 or 
 					(current_page_index == tab_pages.get_child_count() - 1) and offset_x > 0 or 
 					current_page_index != 0 and (current_page_index != tab_pages.get_child_count() - 1)):
-				tab_highlight.position.x = abs(page_offset / 4)
+				var current_tab = tab_buttons.get_child(current_page_index)
+				var next_index = current_page_index
+				
+				if offset_x < 0 and current_page_index < tab_buttons.get_child_count() - 1:
+					next_index = current_page_index + 1
+				elif offset_x > 0 and current_page_index > 0:
+					next_index = current_page_index - 1
+				
+				var next_tab = tab_buttons.get_child(next_index)
+				var progress = abs(offset_x) / page_width
+				progress = clamp(progress, 0, 1)
+				
+				var start_pos = current_tab.position.x
+				var end_pos = next_tab.position.x
+				tab_highlight.position.x = lerp(start_pos, end_pos, progress)
 			
 			current_scroll_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		else:
@@ -120,7 +134,7 @@ func snap_to_page(page_index: int) -> void:
 			tab_highlight, 
 			"position:x", 
 			highlight_target_x, 
-			0.5).set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
+			0.5).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 	
 	current_page_index = page_index
 
