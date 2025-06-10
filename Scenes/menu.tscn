@@ -54,14 +54,22 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1rerr")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -216.0
+offset_top = -117.0
+offset_right = 2134.0
+offset_bottom = 997.0
+
 [node name="MainContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1349.0
+offset_right = 1440.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
 [node name="TabPages" type="Control" parent="MainContainer"]
 clip_contents = true
@@ -71,7 +79,7 @@ size_flags_vertical = 3
 [node name="Page1" type="PanelContainer" parent="MainContainer/TabPages"]
 layout_mode = 2
 offset_right = 480.0
-offset_bottom = 749.0
+offset_bottom = 854.0
 size_flags_horizontal = 3
 
 [node name="ColorRect" type="ColorRect" parent="MainContainer/TabPages/Page1"]
@@ -197,8 +205,8 @@ text = "test
 
 [node name="Page2" type="PanelContainer" parent="MainContainer/TabPages"]
 layout_mode = 2
-offset_left = 484.0
-offset_right = 964.0
+offset_left = 480.0
+offset_right = 960.0
 offset_bottom = 854.0
 size_flags_horizontal = 3
 
@@ -267,8 +275,8 @@ text = "test
 
 [node name="Page3" type="PanelContainer" parent="MainContainer/TabPages"]
 layout_mode = 2
-offset_left = 968.0
-offset_right = 1448.0
+offset_left = 960.0
+offset_right = 1440.0
 offset_bottom = 854.0
 size_flags_horizontal = 3
 
@@ -337,8 +345,8 @@ text = "test
 
 [node name="Page4" type="PanelContainer" parent="MainContainer/TabPages"]
 layout_mode = 2
-offset_left = 1452.0
-offset_right = 1932.0
+offset_left = 1440.0
+offset_right = 1920.0
 offset_bottom = 854.0
 size_flags_horizontal = 3
 

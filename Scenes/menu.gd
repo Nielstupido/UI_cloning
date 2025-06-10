@@ -12,6 +12,7 @@ const DIRECTION_BIAS : int = 5
 const DIRECTION_LOCK_THRESHOLD : int = 10
 const DRAG_RESISTANCE : float = 0.35
 const NOR_DRAG_RESISTANCE : float = 0.6
+const PAGE_MARGIN : float = 35.0
 @onready var tab_buttons : HBoxContainer = $MainContainer/TabButtonsContainer/TabButtons
 @onready var tab_highlight : Button = $MainContainer/TabButtonsContainer/TabHighlight
 @onready var tab_pages : Control = $MainContainer/TabPages
@@ -25,20 +26,22 @@ var current_page_index : int = 0
 var next_page_index : int = 0
 var current_scroll_container : Control
 var swipe_threshold : float
+var page_gap : float
 
 
 func _ready():
 	var page_width = get_viewport_rect().size.x
 	var page_height = get_viewport_rect().size.y
 	var page_count = tab_pages.get_child_count()
-	$MainContainer.size = Vector2(page_width * page_count, page_height)
+	$MainContainer.size = Vector2((page_width + PAGE_MARGIN * 2) * page_count, page_height)
 	tab_buttons_container.custom_minimum_size = Vector2(page_width, 100.0)
 	swipe_threshold = get_viewport_rect().size.x * 0.7
+	page_gap = page_width + PAGE_MARGIN * 2
 	
 	for i in range(page_count):
 		var page = tab_pages.get_child(i)
 		page.size = Vector2(page_width, page_height)
-		page.position = Vector2(i * page_width, 0)
+		page.position = Vector2((i * (page_width + PAGE_MARGIN * 2)) , 0)
 	
 	# Hook up tab button signals
 	for i in range(tab_buttons.get_child_count()):
@@ -90,7 +93,7 @@ func _input(event: InputEvent) -> void:
 			else:
 				offset_x *= NOR_DRAG_RESISTANCE
 			
-			var page_offset = -current_page_index * page_width + offset_x
+			var page_offset = -current_page_index * page_gap + offset_x
 			tab_pages.position.x = page_offset
 			
 			if (current_page_index == 0 and offset_x < 0 or 
@@ -122,7 +125,7 @@ func snap_to_page(page_index: int) -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	
-	var page_target_x = -page_index * page_width
+	var page_target_x = -page_index * page_gap
 	var highlight_target_x = tab_buttons.get_child(page_index).position.x
 	
 	get_tree().create_tween().tween_property(
