@@ -1,0 +1,129 @@
+[gd_scene load_steps=2 format=3 uid="uid://ev7gp8u3y5vm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_svpe0"]
+
+[node name="TabPage4" type="PanelContainer"]
+offset_right = 480.0
+offset_bottom = 854.0
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0.124926, 0.568258, 0.548911, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label5" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label6" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label7" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label8" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label9" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label10" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label11" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label12" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label13" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label14" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label15" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label16" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label17" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"
+
+[node name="Label18" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_svpe0")
+text = "test
+"

@@ -18,6 +18,13 @@ const PAGE_MARGIN : float = 35.0
 @onready var tab_pages : Control = $MainContainer/TabPages
 @onready var tab_buttons_container : Control = $MainContainer/TabButtonsContainer
 
+var page_scenes := [
+	preload("res://scenes/tab_pages/tab_page1.tscn"),
+	preload("res://scenes/tab_pages/tab_page2.tscn"),
+	preload("res://scenes/tab_pages/tab_page3.tscn"),
+	preload("res://scenes/tab_pages/tab_page4.tscn"),
+	preload("res://scenes/tab_pages/tab_page5.tscn"),
+]
 var swipe_start_pos := Vector2.ZERO
 var swipe_direction_locked : String = EMPTY
 var is_dragging : bool = false
@@ -27,32 +34,50 @@ var next_page_index : int = 0
 var current_scroll_container : Control
 var swipe_threshold : float
 var page_gap : float
+var popup_window_opened : bool = false
 
 
 func _ready():
-	var page_width = get_viewport_rect().size.x
+	page_width = get_viewport_rect().size.x
 	var page_height = get_viewport_rect().size.y
-	var page_count = tab_pages.get_child_count()
+	var page_count = page_scenes.size()
+	
 	$MainContainer.size = Vector2((page_width + PAGE_MARGIN * 2) * page_count, page_height)
 	tab_buttons_container.custom_minimum_size = Vector2(page_width, 100.0)
-	swipe_threshold = get_viewport_rect().size.x * 0.7
+	swipe_threshold = page_width * 0.7
 	page_gap = page_width + PAGE_MARGIN * 2
 	
-	for i in range(page_count):
-		var page = tab_pages.get_child(i)
-		page.size = Vector2(page_width, page_height)
-		page.position = Vector2((i * (page_width + PAGE_MARGIN * 2)) , 0)
+	_load_tab_pages()
+	await get_tree().process_frame
+	await get_tree().process_frame
 	
-	# Hook up tab button signals
 	for i in range(tab_buttons.get_child_count()):
 		var button = tab_buttons.get_child(i)
 		button.pressed.connect(_on_tab_button_pressed.bind(i))
 	
-	_on_tab_button_pressed(0)
+	current_page_index = page_count / 2
+	next_page_index = current_page_index
+	tab_pages.position.x = -current_page_index * page_gap
+	
+	for i in range(tab_buttons.get_child_count()):
+		var btn = tab_buttons.get_child(i)
+		btn.size_flags_stretch_ratio = DEFAULT_TAB_RATIO
+		btn.add_theme_font_size_override("font_size", DEFAULT_TEXT_SIZE)
+	
+	var selected_btn = tab_buttons.get_child(current_page_index)
+	selected_btn.size_flags_stretch_ratio = HIGHLIGHTED_TAB_RATIO
+	selected_btn.add_theme_font_size_override("font_size", HIGHLIGHTED_TEXT_SIZE)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	tab_highlight.position.x = tab_buttons.get_child(current_page_index).position.x
+
 
 
 func _input(event: InputEvent) -> void:
-	current_scroll_container = tab_pages.get_child(current_page_index).get_node("ScrollContainer")
+	if popup_window_opened:
+		return
+	
+	current_scroll_container = tab_pages.get_child(current_page_index).get_node_or_null("ScrollContainer")
 	
 	if event is InputEventScreenTouch:
 		if event.pressed:
@@ -115,16 +140,25 @@ func _input(event: InputEvent) -> void:
 				var end_pos = next_tab.position.x
 				tab_highlight.position.x = lerp(start_pos, end_pos, progress)
 			
-			current_scroll_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			if current_scroll_container:
+				current_scroll_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		else:
-			current_scroll_container.mouse_filter = Control.MOUSE_FILTER_PASS
+			if current_scroll_container:
+				current_scroll_container.mouse_filter = Control.MOUSE_FILTER_PASS
+
+
+func _load_tab_pages() -> void:
+	for i in range(page_scenes.size()):
+		var page = page_scenes[i].instantiate()
+		page.size = Vector2(page_width, get_viewport_rect().size.y)
+		page.position = Vector2(i * (page_width + PAGE_MARGIN * 2), 0)
+		tab_pages.add_child(page)
 
 
 func snap_to_page(page_index: int) -> void:
 	_animate_tab_icon(page_index)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
 	var page_target_x = -page_index * page_gap
 	var highlight_target_x = tab_buttons.get_child(page_index).position.x
 	
@@ -152,8 +186,9 @@ func _on_tab_button_pressed(target_index : int) -> void:
 func _animate_tab_icon(target_index : int) -> void: 
 	var old_button : Button = tab_buttons.get_child(current_page_index)
 	var new_button : Button = tab_buttons.get_child(target_index)
-	tab_buttons.get_child(current_page_index).size_flags_stretch_ratio = DEFAULT_TAB_RATIO
-	tab_buttons.get_child(target_index).size_flags_stretch_ratio = HIGHLIGHTED_TAB_RATIO
+	
+	old_button.size_flags_stretch_ratio = DEFAULT_TAB_RATIO
+	new_button.size_flags_stretch_ratio = HIGHLIGHTED_TAB_RATIO
 	
 	if target_index != current_page_index:
 		get_tree().create_tween().tween_method(
@@ -169,5 +204,11 @@ func _animate_tab_icon(target_index : int) -> void:
 			new_button.add_theme_font_size_override("font_size", round(value)),
 		DEFAULT_TEXT_SIZE,
 		HIGHLIGHTED_TEXT_SIZE,
-		0.3
-	).set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
+		0.2
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+
+
+func open_popup_window() -> void:
+	$PopupWindow.open_window()
+	popup_window_opened = true
