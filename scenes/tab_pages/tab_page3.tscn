@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://deid2f5u48dt2"]
 
-[ext_resource type="Script" uid="uid://birt8oady1td5" path="res://scenes/tab_pages/tab_page_3.gd" id="1_th8l2"]
+[ext_resource type="Script" uid="uid://birt8oady1td5" path="res://Scenes/tab_pages/tab_page_3.gd" id="1_th8l2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hqe6v"]
 corner_radius_top_left = 10

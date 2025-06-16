@@ -19,11 +19,11 @@ const PAGE_MARGIN : float = 35.0
 @onready var tab_buttons_container : Control = $MainContainer/TabButtonsContainer
 
 var page_scenes := [
-	preload("res://scenes/tab_pages/tab_page1.tscn"),
-	preload("res://scenes/tab_pages/tab_page2.tscn"),
-	preload("res://scenes/tab_pages/tab_page3.tscn"),
-	preload("res://scenes/tab_pages/tab_page4.tscn"),
-	preload("res://scenes/tab_pages/tab_page5.tscn"),
+	preload("res://Scenes/tab_pages/tab_page1.tscn"),
+	preload("res://Scenes/tab_pages/tab_page2.tscn"),
+	preload("res://Scenes/tab_pages/tab_page3.tscn"),
+	preload("res://Scenes/tab_pages/tab_page4.tscn"),
+	preload("res://Scenes/tab_pages/tab_page5.tscn"),
 ]
 var swipe_start_pos := Vector2.ZERO
 var swipe_direction_locked : String = EMPTY
