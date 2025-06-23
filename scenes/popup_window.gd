@@ -7,13 +7,12 @@ extends Panel
 
 
 func _ready():
-	self.visible = false
+	close_window()
 	close_button.pressed.connect(close_window)
 
 
 func open_window():
 	self.visible = true
-	self.modulate.a = 0.0
 	content_container.scale = Vector2(0.8, 0.8)
 	content_container.visible = true
 	
@@ -27,12 +26,6 @@ func open_window():
 
 
 func close_window():
-	if tween:
-		tween.kill()  
-	
-	tween = create_tween()
-	tween.set_parallel()
-	tween.tween_property(self, "modulate:a", 0.0, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	tween.tween_property(content_container, "scale", Vector2(0.8, 0.8), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
-	tween.tween_callback(func(): self.visible = false)
+	self.visible = false
+	self.modulate.a = 0.0
 	get_parent().popup_window_opened = false
