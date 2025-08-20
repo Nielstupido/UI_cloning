@@ -166,12 +166,12 @@ func snap_to_page(page_index: int) -> void:
 			tab_pages, 
 			"position:x", 
 			page_target_x, 
-			0.5).set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
+			0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	get_tree().create_tween().tween_property(
 			tab_highlight, 
 			"position:x", 
 			highlight_target_x, 
-			0.5).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+			0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
 	current_page_index = page_index
 

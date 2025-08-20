@@ -127,3 +127,57 @@ layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
 text = "test
 "
+
+[node name="Label19" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+text = "test
+"
+
+[node name="Label20" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+text = "test
+"
+
+[node name="Label21" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+text = "test
+"
+
+[node name="Label22" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+text = "test
+"
+
+[node name="Label23" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+text = "test
+"
+
+[node name="Label24" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+text = "test
+"
+
+[node name="Label25" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+text = "test
+"
+
+[node name="Label26" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+text = "test
+"
+
+[node name="Label27" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+text = "test
+"
