@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://cnlo0j31t8x7k"]
+[gd_scene load_steps=6 format=3 uid="uid://cnlo0j31t8x7k"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f4mek"]
+[ext_resource type="Script" uid="uid://bgqglerkcylxx" path="res://addons/SmoothScroll/SmoothScrollContainer.gd" id="1_66uoc"]
+[ext_resource type="Script" uid="uid://b7h0k2h2qwlqv" path="res://addons/SmoothScroll/scroll_damper/expo_scroll_damper.gd" id="2_5rmk0"]
+
+[sub_resource type="Resource" id="Resource_cucau"]
+script = ExtResource("2_5rmk0")
+friction = 4.0
+minimum_velocity = 0.4
+rebound_strength = 7.0
+
+[sub_resource type="Resource" id="Resource_bo7j6"]
+script = ExtResource("2_5rmk0")
+friction = 4.0
+minimum_velocity = 0.4
+rebound_strength = 7.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mg6md"]
 
 [node name="TabPage5" type="PanelContainer"]
 offset_right = 480.0
@@ -10,174 +25,192 @@ offset_bottom = 854.0
 layout_mode = 2
 color = Color(0.360991, 0.00108371, 0.887826, 1)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="SmoothScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
+script = ExtResource("1_66uoc")
+wheel_scroll_damper = SubResource("Resource_cucau")
+dragging_scroll_damper = SubResource("Resource_bo7j6")
+allow_horizontal_scroll = false
+metadata/_custom_type_script = "uid://bgqglerkcylxx"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SmoothScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label1" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
+text = "first
+"
+
+[node name="Label2" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label5" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label5" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label6" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label6" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label7" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label7" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label8" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label8" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label9" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label9" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label10" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label10" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label11" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label11" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label12" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label12" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label13" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label13" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label14" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label14" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label15" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label15" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label16" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label16" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label17" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label17" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label18" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label18" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label19" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label19" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label20" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label20" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label21" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label21" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label22" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label22" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label23" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label23" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label24" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
 text = "test
 "
 
-[node name="Label24" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Label25" type="Label" parent="SmoothScrollContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
-text = "test
-"
-
-[node name="Label25" type="Label" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
-text = "test
-"
-
-[node name="Label26" type="Label" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
-text = "test
-"
-
-[node name="Label27" type="Label" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_f4mek")
-text = "test
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_mg6md")
+text = "last
 "

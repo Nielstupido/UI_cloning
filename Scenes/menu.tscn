@@ -1,7 +1,18 @@
-[gd_scene load_steps=11 format=3 uid="uid://c5jganvdf1eon"]
+[gd_scene load_steps=14 format=3 uid="uid://c5jganvdf1eon"]
 
 [ext_resource type="Script" uid="uid://ce4mitwj1jgmq" path="res://scenes/menu.gd" id="1_1rerr"]
 [ext_resource type="PackedScene" uid="uid://2o41pux0v8jx" path="res://scenes/popup_window.tscn" id="2_vjb58"]
+
+[sub_resource type="Gradient" id="Gradient_vjb58"]
+colors = PackedColorArray(0.830552, 0.984671, 0.436756, 1, 0.552358, 0.5672, 0.899155, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_con2f"]
+seed = 80
+frequency = 0.0032
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mhnvy"]
+color_ramp = SubResource("Gradient_vjb58")
+noise = SubResource("FastNoiseLite_con2f")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1rerr"]
 bg_color = Color(0.355314, 0.355314, 0.355314, 1)
@@ -53,12 +64,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1rerr")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = -216.0
 offset_top = -117.0
 offset_right = 2688.0
 offset_bottom = 997.0
+texture = SubResource("NoiseTexture2D_mhnvy")
 
 [node name="MainContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -160,4 +172,5 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_xhh6f")
 theme_override_styles/normal = SubResource("StyleBoxFlat_jsrd8")
 
 [node name="PopupWindow" parent="." instance=ExtResource("2_vjb58")]
+visible = false
 layout_mode = 1

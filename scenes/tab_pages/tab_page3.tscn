@@ -13,7 +13,7 @@ offset_right = 480.0
 offset_bottom = 854.0
 script = ExtResource("1_th8l2")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 2
 color = Color(0.863809, 0.496757, 0.946984, 1)
 

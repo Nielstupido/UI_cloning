@@ -13,26 +13,29 @@ const DIRECTION_LOCK_THRESHOLD : int = 10
 const DRAG_RESISTANCE : float = 0.35
 const NOR_DRAG_RESISTANCE : float = 0.6
 const PAGE_MARGIN : float = 35.0
+const SWIPE_TIME_THRESHOLD : float = 0.3
 @onready var tab_buttons : HBoxContainer = $MainContainer/TabButtonsContainer/TabButtons
 @onready var tab_highlight : Button = $MainContainer/TabButtonsContainer/TabHighlight
 @onready var tab_pages : Control = $MainContainer/TabPages
 @onready var tab_buttons_container : Control = $MainContainer/TabButtonsContainer
 
 var page_scenes := [
-	preload("res://Scenes/tab_pages/tab_page1.tscn"),
-	preload("res://Scenes/tab_pages/tab_page2.tscn"),
-	preload("res://Scenes/tab_pages/tab_page3.tscn"),
-	preload("res://Scenes/tab_pages/tab_page4.tscn"),
-	preload("res://Scenes/tab_pages/tab_page5.tscn"),
+	preload("res://scenes/tab_pages/tab_page1.tscn"),
+	preload("res://scenes/tab_pages/tab_page2.tscn"),
+	preload("res://scenes/tab_pages/tab_page3.tscn"),
+	preload("res://scenes/tab_pages/tab_page4.tscn"),
+	preload("res://scenes/tab_pages/tab_page5.tscn"),
 ]
 var swipe_start_pos := Vector2.ZERO
+var swipe_start_time : float 
 var swipe_direction_locked : String = EMPTY
 var is_dragging : bool = false
 var page_width : float = 0
 var current_page_index : int = 0
 var next_page_index : int = 0
 var current_scroll_container : Control
-var swipe_threshold : float
+var slow_swipe_threshold : float
+var fast_swipe_threshold : float
 var page_gap : float
 var popup_window_opened : bool = false
 
@@ -44,7 +47,8 @@ func _ready():
 	
 	$MainContainer.size = Vector2((page_width + PAGE_MARGIN * 2) * page_count, page_height)
 	tab_buttons_container.custom_minimum_size = Vector2(page_width, 100.0)
-	swipe_threshold = page_width * 0.7
+	slow_swipe_threshold = page_width * 0.7
+	fast_swipe_threshold = page_width * 0.15
 	page_gap = page_width + PAGE_MARGIN * 2
 	
 	_load_tab_pages()
@@ -72,39 +76,49 @@ func _ready():
 	tab_highlight.position.x = tab_buttons.get_child(current_page_index).position.x
 
 
-
 func _input(event: InputEvent) -> void:
 	if popup_window_opened:
 		return
 	
-	current_scroll_container = tab_pages.get_child(current_page_index).get_node_or_null("ScrollContainer")
+	current_scroll_container = tab_pages.get_child(current_page_index).get_node_or_null("SmoothScrollContainer")
 	
 	if event is InputEventScreenTouch:
 		if event.pressed:
 			swipe_start_pos = event.position
+			swipe_start_time = Time.get_unix_time_from_system()
 			swipe_direction_locked = EMPTY
 			is_dragging = true
 			page_width = get_viewport_rect().size.x
 		else:
 			is_dragging = false
 			if swipe_direction_locked == HORIZONTAL:
-				var delta = event.position - swipe_start_pos
-				var swipe_amount = delta.x
+				var time_difference = abs(swipe_start_time - Time.get_unix_time_from_system())
+				var pos_difference = event.position - swipe_start_pos
+				var swipe_amount = pos_difference.x
 				next_page_index = current_page_index
 				
-				if abs(swipe_amount) > swipe_threshold:
+				if ((time_difference < SWIPE_TIME_THRESHOLD and abs(swipe_amount) > fast_swipe_threshold) or 
+					(time_difference > SWIPE_TIME_THRESHOLD and abs(swipe_amount) > slow_swipe_threshold)):
 					if swipe_amount < 0 and current_page_index < tab_pages.get_child_count() - 1:
 						next_page_index = current_page_index + 1
 					elif swipe_amount > 0 and current_page_index > 0:
 						next_page_index = current_page_index - 1
-				
+					
 				snap_to_page(next_page_index)
 	
 	elif event is InputEventScreenDrag and is_dragging:
 		var delta = event.position - swipe_start_pos
+		var can_swipe_horizontally = true
+		
+		if current_scroll_container and current_scroll_container.has_method("has_snapped_back"):
+			if not current_scroll_container.has_snapped_back():
+				can_swipe_horizontally = false
+			else:
+				can_swipe_horizontally = true
+		
 		if swipe_direction_locked == EMPTY:
 			if abs(delta.x) > DIRECTION_LOCK_THRESHOLD or abs(delta.y) > DIRECTION_LOCK_THRESHOLD:
-				if abs(delta.x) > DIRECTION_BIAS * abs(delta.y):
+				if abs(delta.x) > DIRECTION_BIAS * abs(delta.y) and can_swipe_horizontally:
 					swipe_direction_locked = HORIZONTAL
 				elif abs(delta.y) > DIRECTION_BIAS * abs(delta.x):
 					swipe_direction_locked = VERTICAL
@@ -141,16 +155,16 @@ func _input(event: InputEvent) -> void:
 				tab_highlight.position.x = lerp(start_pos, end_pos, progress)
 			
 			if current_scroll_container:
-				current_scroll_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				current_scroll_container.allow_vertical_scroll = false
 		else:
 			if current_scroll_container:
-				current_scroll_container.mouse_filter = Control.MOUSE_FILTER_PASS
+				current_scroll_container.allow_vertical_scroll = true
 
 
 func _load_tab_pages() -> void:
 	for i in range(page_scenes.size()):
 		var page = page_scenes[i].instantiate()
-		page.size = Vector2(page_width, get_viewport_rect().size.y)
+		page.size = Vector2(page_width, (get_viewport_rect().size.y - tab_buttons_container.size.y))
 		page.position = Vector2(i * (page_width + PAGE_MARGIN * 2), 0)
 		tab_pages.add_child(page)
 
@@ -206,7 +220,6 @@ func _animate_tab_icon(target_index : int) -> void:
 		HIGHLIGHTED_TEXT_SIZE,
 		0.2
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-
 
 
 func open_popup_window() -> void:
