@@ -9,11 +9,12 @@ friction = 4.0
 minimum_velocity = 0.4
 rebound_strength = 7.0
 
-[sub_resource type="Resource" id="Resource_jh62h"]
+[sub_resource type="Resource" id="Resource_hppyv"]
 script = ExtResource("3_avy3q")
 friction = 4.0
 minimum_velocity = 0.4
 rebound_strength = 7.0
+metadata/_custom_type_script = "uid://b7h0k2h2qwlqv"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ethta"]
 
@@ -32,7 +33,7 @@ horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 script = ExtResource("2_x37at")
 wheel_scroll_damper = SubResource("Resource_c3p6b")
-dragging_scroll_damper = SubResource("Resource_jh62h")
+dragging_scroll_damper = SubResource("Resource_hppyv")
 allow_horizontal_scroll = false
 metadata/_custom_type_script = "uid://bgqglerkcylxx"
 
