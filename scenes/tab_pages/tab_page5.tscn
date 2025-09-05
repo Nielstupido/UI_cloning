@@ -11,7 +11,7 @@ rebound_strength = 7.0
 
 [sub_resource type="Resource" id="Resource_bo7j6"]
 script = ExtResource("2_5rmk0")
-friction = 4.0
+friction = 2.5
 minimum_velocity = 0.4
 rebound_strength = 7.0
 
@@ -31,6 +31,7 @@ horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 script = ExtResource("1_66uoc")
 wheel_scroll_damper = SubResource("Resource_cucau")
+scroll_speed_scale = 0.3
 dragging_scroll_damper = SubResource("Resource_bo7j6")
 allow_horizontal_scroll = false
 metadata/_custom_type_script = "uid://bgqglerkcylxx"

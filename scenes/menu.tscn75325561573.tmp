@@ -55,7 +55,7 @@ border_blend = true
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xhh6f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jsrd8"]
-bg_color = Color(0.258824, 0.717647, 0.67451, 0.568627)
+bg_color = Color(0, 0.768627, 0, 0.168627)
 
 [node name="MainControl" type="Control"]
 layout_mode = 3
@@ -106,6 +106,7 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
 theme_override_font_sizes/font_size = 18
 theme_override_styles/focus = SubResource("StyleBoxFlat_1rerr")
 theme_override_styles/hover = SubResource("StyleBoxFlat_1rerr")
@@ -116,7 +117,6 @@ vertical_icon_alignment = 0
 script = ExtResource("2_mhnvy")
 
 [node name="Icon" type="TextureRect" parent="MainContainer/TabButtonsContainer/TabButtons/Tab1"]
-z_index = 2
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -135,19 +135,12 @@ size_flags_vertical = 3
 texture = ExtResource("2_con2f")
 
 [node name="Label" type="Label" parent="MainContainer/TabButtonsContainer/TabButtons/Tab1"]
-z_index = 2
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -44.5
-offset_top = -11.5
-offset_right = 44.5
-offset_bottom = 11.5
+layout_mode = 2
+offset_left = 27.0
+offset_top = 67.0
+offset_right = 116.0
+offset_bottom = 90.0
 grow_horizontal = 2
-grow_vertical = 2
 size_flags_vertical = 1
 text = "Shop"
 horizontal_alignment = 1
@@ -165,7 +158,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_cayip")
 script = ExtResource("2_mhnvy")
 
 [node name="Icon" type="TextureRect" parent="MainContainer/TabButtonsContainer/TabButtons/Tab2"]
-z_index = 2
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -184,20 +176,12 @@ size_flags_vertical = 3
 texture = ExtResource("2_con2f")
 
 [node name="Label" type="Label" parent="MainContainer/TabButtonsContainer/TabButtons/Tab2"]
-z_index = 2
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -44.5
-offset_top = -11.5
-offset_right = 44.5
-offset_bottom = 11.5
+layout_mode = 0
+offset_left = 27.0
+offset_top = 67.0
+offset_right = 116.0
+offset_bottom = 90.0
 grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1, 0.989935)
 size_flags_vertical = 1
 text = "Shop"
 horizontal_alignment = 1
@@ -207,7 +191,6 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.5
 theme_override_font_sizes/font_size = 18
 theme_override_styles/focus = SubResource("StyleBoxFlat_158mb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_158mb")
@@ -216,7 +199,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_158mb")
 script = ExtResource("2_mhnvy")
 
 [node name="Icon" type="TextureRect" parent="MainContainer/TabButtonsContainer/TabButtons/Tab3"]
-z_index = 2
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -234,19 +216,12 @@ size_flags_vertical = 3
 texture = ExtResource("2_con2f")
 
 [node name="Label" type="Label" parent="MainContainer/TabButtonsContainer/TabButtons/Tab3"]
-z_index = 2
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -44.5
-offset_top = -11.5
-offset_right = 44.5
-offset_bottom = 11.5
+layout_mode = 0
+offset_left = 27.0
+offset_top = 67.0
+offset_right = 116.0
+offset_bottom = 90.0
 grow_horizontal = 2
-grow_vertical = 2
 size_flags_vertical = 1
 text = "Shop"
 horizontal_alignment = 1
@@ -264,7 +239,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_wwsa2")
 script = ExtResource("2_mhnvy")
 
 [node name="Icon" type="TextureRect" parent="MainContainer/TabButtonsContainer/TabButtons/Tab4"]
-z_index = 2
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -282,19 +256,12 @@ size_flags_vertical = 3
 texture = ExtResource("2_con2f")
 
 [node name="Label" type="Label" parent="MainContainer/TabButtonsContainer/TabButtons/Tab4"]
-z_index = 2
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -44.5
-offset_top = -11.5
-offset_right = 44.5
-offset_bottom = 11.5
+layout_mode = 0
+offset_left = 27.0
+offset_top = 67.0
+offset_right = 116.0
+offset_bottom = 90.0
 grow_horizontal = 2
-grow_vertical = 2
 size_flags_vertical = 1
 text = "Shop"
 horizontal_alignment = 1
@@ -312,7 +279,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_wwsa2")
 script = ExtResource("2_mhnvy")
 
 [node name="Icon" type="TextureRect" parent="MainContainer/TabButtonsContainer/TabButtons/Tab5"]
-z_index = 2
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -330,29 +296,21 @@ size_flags_vertical = 3
 texture = ExtResource("2_con2f")
 
 [node name="Label" type="Label" parent="MainContainer/TabButtonsContainer/TabButtons/Tab5"]
-z_index = 2
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -44.5
-offset_top = -11.5
-offset_right = 44.5
-offset_bottom = 11.5
+layout_mode = 0
+offset_left = 27.0
+offset_top = 67.0
+offset_right = 116.0
+offset_bottom = 90.0
 grow_horizontal = 2
-grow_vertical = 2
 size_flags_vertical = 1
 text = "Shop"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TabHighlight" type="Button" parent="MainContainer/TabButtonsContainer"]
-z_index = 1
 custom_minimum_size = Vector2(130, 100)
 layout_mode = 2
-offset_left = 174.0
+offset_left = 175.0
 offset_right = 305.0
 offset_bottom = 100.0
 size_flags_horizontal = 4

@@ -62,6 +62,7 @@ func _ready():
 	current_page_index = page_count / 2
 	next_page_index = current_page_index
 	tab_pages.position.x = -current_page_index * page_gap
+	tab_buttons.get_child(current_page_index).set_selected(true)
 	
 	for i in range(tab_buttons.get_child_count()):
 		var btn = tab_buttons.get_child(i)
@@ -73,7 +74,8 @@ func _ready():
 	selected_btn.add_theme_font_size_override("font_size", HIGHLIGHTED_TEXT_SIZE)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	tab_highlight.position.x = tab_buttons.get_child(current_page_index).position.x
+	tab_highlight.position.x = selected_btn.position.x
+	tab_highlight.size = selected_btn.size
 
 
 func _input(event: InputEvent) -> void:
@@ -103,7 +105,7 @@ func _input(event: InputEvent) -> void:
 						next_page_index = current_page_index + 1
 					elif swipe_amount > 0 and current_page_index > 0:
 						next_page_index = current_page_index - 1
-					
+				
 				snap_to_page(next_page_index)
 	
 	elif event is InputEventScreenDrag and is_dragging:
@@ -128,7 +130,7 @@ func _input(event: InputEvent) -> void:
 			
 			if ((current_page_index == 0 and offset_x > 0) or 
 					((current_page_index == tab_pages.get_child_count() - 1) and offset_x < 0)):
-				offset_x *= DRAG_RESISTANCE 
+				offset_x *= DRAG_RESISTANCE
 			else:
 				offset_x *= NOR_DRAG_RESISTANCE
 			
@@ -185,7 +187,7 @@ func snap_to_page(page_index: int) -> void:
 			tab_highlight, 
 			"position:x", 
 			highlight_target_x, 
-			0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+			0.9).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	
 	current_page_index = page_index
 
@@ -201,6 +203,8 @@ func _animate_tab_icon(target_index : int) -> void:
 	var old_button : Button = tab_buttons.get_child(current_page_index)
 	var new_button : Button = tab_buttons.get_child(target_index)
 	
+	old_button.set_selected(false)
+	new_button.set_selected(true)
 	old_button.size_flags_stretch_ratio = DEFAULT_TAB_RATIO
 	new_button.size_flags_stretch_ratio = HIGHLIGHTED_TAB_RATIO
 	

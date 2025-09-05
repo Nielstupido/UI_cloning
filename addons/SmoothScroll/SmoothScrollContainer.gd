@@ -15,12 +15,18 @@ var speed := 1000.0
 var wheel_scroll_damper: ScrollDamper = ExpoScrollDamper.new()
 
 @export_group("Dragging")
+## Scroll speed scaler
+@export_range(0, 1, 0.01)
+var scroll_speed_scale := 0.5
+
 ## ScrollDamper for dragging
 @export
 var dragging_scroll_damper: ScrollDamper = ExpoScrollDamper.new()
+
 ### Allow dragging with mouse or not
 @export
 var drag_with_mouse := true
+
 ## Allow dragging with touch or not
 @export
 var drag_with_touch := true
@@ -29,18 +35,23 @@ var drag_with_touch := true
 ## Below this value, snap content to boundary
 @export
 var just_snap_under := 0.4
+
 ## Margin of the currently focused element
 @export_range(0, 50)
 var follow_focus_margin := 20
+
 ## Makes the container scrollable vertically
 @export
 var allow_vertical_scroll := true
+
 ## Makes the container scrollable horizontally
 @export
 var allow_horizontal_scroll := true
+
 ## Makes the container only scrollable where the content has overflow
 @export
 var auto_allow_scroll := true
+
 ## Whether the content of this container should be allowed to overshoot at the ends
 ## before interpolating back to its bounds
 @export
@@ -135,7 +146,7 @@ func _ready() -> void:
 	get_h_scroll_bar().mouse_entered.connect(_mouse_on_scroll_bar.bind(true))
 	get_h_scroll_bar().mouse_exited.connect(_mouse_on_scroll_bar.bind(false))
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
-
+	
 	for c in get_children():
 		if not c is ScrollBar:
 			content_node = c
@@ -153,7 +164,7 @@ func _process(delta: float) -> void:
 	scroll(false, velocity.x, pos.x, delta)
 	update_scrollbars()
 	update_is_scrolling()
-
+	
 	if debug_mode:
 		queue_redraw()
 
@@ -272,7 +283,7 @@ func _gui_input(event: InputEvent) -> void:
 			if should_scroll_horizontal():
 				drag_temp_data[0] += event.relative.x
 			if should_scroll_vertical():
-				drag_temp_data[1] += event.relative.y
+				drag_temp_data[1] += event.relative.y * scroll_speed_scale
 			remove_all_children_focus(self)
 			handle_content_dragging()
 	
@@ -395,7 +406,7 @@ func scroll(vertical: bool, axis_velocity: float, axis_pos: float, delta: float)
 		var next_pos = axis_pos + slide_result[1]
 		var size_diff = get_child_size_y_diff(content_node, true) if vertical else get_child_size_x_diff(content_node, true)
 		
-		# --- 👇 hard clamp when snapping back would overshoot ---
+		# Hard clamp when snapping back would overshoot
 		if allow_overdragging:
 			if vertical:
 				if axis_pos > 0.0 and next_pos <= 0.0:
@@ -411,10 +422,10 @@ func scroll(vertical: bool, axis_velocity: float, axis_pos: float, delta: float)
 				elif axis_pos < -size_diff and next_pos >= -size_diff:
 					next_pos = -size_diff
 					next_vel = 0.0
-
+		
 		axis_pos = next_pos
 		axis_velocity = next_vel
-
+		
 		# still run snap() for tiny corrections
 		var snap_result = snap(vertical, axis_velocity, axis_pos)
 		axis_velocity = snap_result[0]
@@ -424,9 +435,9 @@ func scroll(vertical: bool, axis_velocity: float, axis_pos: float, delta: float)
 			content_dragging_moved = false
 		else:
 			axis_velocity = 0.0
-
+	
 	if handle_scrollbar_drag(): return
-
+	
 	if vertical:
 		if not allow_overdragging:
 			if is_outside_top_boundary(axis_pos):
@@ -452,52 +463,47 @@ func scroll(vertical: bool, axis_velocity: float, axis_pos: float, delta: float)
 
 
 func handle_overdrag(vertical: bool, axis_velocity: float, axis_pos: float, delta: float) -> float:
-	if !scroll_damper: 
+	if !scroll_damper:
 		return 0.0
-
+	
 	var size_diff = get_child_size_y_diff(content_node, true) if vertical else get_child_size_x_diff(content_node, true)
-
 	var dist1 = get_child_top_dist(axis_pos, size_diff) if vertical else get_child_left_dist(axis_pos, size_diff)
 	var dist2 = get_child_bottom_dist(axis_pos, size_diff) if vertical else get_child_right_dist(axis_pos, size_diff)
-
+	
 	var target_vel1 = scroll_damper._calculate_velocity_to_dest(dist1, 0.0)
 	var target_vel2 = scroll_damper._calculate_velocity_to_dest(dist2, 0.0)
-
-	# Top boundary
+	
+	# --- Top boundary ---
 	if axis_pos > 0.0:
 		if axis_velocity > target_vel1:
 			axis_velocity = scroll_damper.attract(
-				dist1 * 2.0,   # stronger pull back
+				dist1 * 5.0, 
 				0.0,
 				axis_velocity,
 				delta
 			)
-			axis_velocity *= 0.9
-
-		# Snap if very close
-		if abs(axis_pos) < 1.0 and abs(axis_velocity) < 5.0:
+		
+		# hard snap when very close
+		if axis_pos < 1.0 and abs(axis_velocity) < 100.0:
 			axis_velocity = 0.0
-			if vertical: scroll_vertical = 0
-			else: scroll_horizontal = 0
-
-	# Bottom boundary
+			axis_pos = 0.0
+	
+	# --- Bottom boundary ---
 	elif axis_pos < -size_diff:
 		if axis_velocity < target_vel2:
 			axis_velocity = scroll_damper.attract(
-				dist2 * 2.0,   # stronger pull back
+				dist2 * 5.0,  
 				0.0,
 				axis_velocity,
 				delta
 			)
-			axis_velocity *= 0.9
-
-		# Snap if very close
-		if abs(axis_pos + size_diff) < 1.0 and abs(axis_velocity) < 5.0:
+		
+		if abs(axis_pos + size_diff) < 1.0 and abs(axis_velocity) < 100.0:
 			axis_velocity = 0.0
-			if vertical: scroll_vertical = size_diff
-			else: scroll_horizontal = size_diff
-
+			axis_pos = -size_diff
+	
 	return axis_velocity
+
 
 
 # Snap to boundary if close enough in next frame
