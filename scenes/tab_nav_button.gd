@@ -7,6 +7,7 @@ var highlighted_icon_offset : float = 20.0
 var default_scale: float = 0.5
 var enlarged_scale: float = 0.6
 var label_margin: float = 50.0
+var default_pos_y: float = 0.0
 
 
 func _ready():
@@ -24,6 +25,7 @@ func _ready():
 	tab_label.visible = false
 	tab_label.modulate.a = 0.0
 	_update_label_position()
+	default_pos_y = tab_icon.position.y
 
 
 func set_selected(selected: bool):
@@ -33,7 +35,7 @@ func set_selected(selected: bool):
 		).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 		
 		get_tree().create_tween().tween_property(
-			tab_icon, "position:y", tab_icon.position.y - highlighted_icon_offset, 0.3
+			tab_icon, "position:y", default_pos_y - highlighted_icon_offset, 0.3
 		).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
 		
 		tab_label.visible = true
