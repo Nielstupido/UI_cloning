@@ -8,7 +8,7 @@ const DEFAULT_TEXT_SIZE : int = 18
 const HIGHLIGHTED_TEXT_SIZE : int = 30
 const DEFAULT_TAB_RATIO : float = 1.0
 const HIGHLIGHTED_TAB_RATIO : float = 1.5
-const DIRECTION_BIAS : int = 5
+const DIRECTION_BIAS : int = 3
 const DIRECTION_LOCK_THRESHOLD : int = 10
 const DRAG_RESISTANCE : float = 0.35
 const NOR_DRAG_RESISTANCE : float = 0.6
@@ -47,7 +47,7 @@ func _ready():
 	
 	$MainContainer.size = Vector2((page_width + PAGE_MARGIN * 2) * page_count, page_height)
 	tab_buttons_container.custom_minimum_size = Vector2(page_width, 100.0)
-	slow_swipe_threshold = page_width * 0.7
+	slow_swipe_threshold = page_width * 0.6
 	fast_swipe_threshold = page_width * 0.15
 	page_gap = page_width + PAGE_MARGIN * 2
 	
@@ -172,24 +172,51 @@ func _load_tab_pages() -> void:
 
 
 func snap_to_page(page_index: int) -> void:
+	if page_index == current_page_index:
+		var page_target_x = -current_page_index * page_gap
+		var highlight_target_x = tab_buttons.get_child(current_page_index).position.x
+		
+		# Tween back to the original page position 
+		get_tree().create_tween().tween_property(
+			tab_pages,
+			"position:x",
+			page_target_x,
+			0.35
+		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		
+		get_tree().create_tween().tween_property(
+			tab_highlight,
+			"position:x",
+			highlight_target_x,
+			0.4
+		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		
+		return
+	
+	# Successful swipe transition
 	_animate_tab_icon(page_index)
 	await get_tree().process_frame
 	await get_tree().process_frame
+	
 	var page_target_x = -page_index * page_gap
 	var highlight_target_x = tab_buttons.get_child(page_index).position.x
 	
 	get_tree().create_tween().tween_property(
-			tab_pages, 
-			"position:x", 
-			page_target_x, 
-			0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tab_pages,
+		"position:x",
+		page_target_x,
+		0.5
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	
 	get_tree().create_tween().tween_property(
-			tab_highlight, 
-			"position:x", 
-			highlight_target_x, 
-			0.9).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+		tab_highlight,
+		"position:x",
+		highlight_target_x,
+		0.9
+	).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	
 	current_page_index = page_index
+
 
 
 func _on_tab_button_pressed(target_index : int) -> void:
@@ -200,6 +227,9 @@ func _on_tab_button_pressed(target_index : int) -> void:
 
 
 func _animate_tab_icon(target_index : int) -> void: 
+	if target_index == current_page_index:
+		return
+	
 	var old_button : Button = tab_buttons.get_child(current_page_index)
 	var new_button : Button = tab_buttons.get_child(target_index)
 	

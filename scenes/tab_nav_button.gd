@@ -3,7 +3,7 @@ extends Button
 @onready var tab_icon: TextureRect = $Icon
 @onready var tab_label: Label = $Label
 
-var highlighted_icon_offset : float = 20.0
+var highlighted_icon_offset: float = 20.0
 var default_scale: float = 0.5
 var enlarged_scale: float = 0.6
 var label_margin: float = 50.0
@@ -29,32 +29,29 @@ func _ready():
 
 
 func set_selected(selected: bool):
+	var tween = get_tree().create_tween()
+	
 	if selected:
-		get_tree().create_tween().tween_property(
-			tab_icon, "scale", Vector2(enlarged_scale, enlarged_scale), 0.3
-		).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-		
-		get_tree().create_tween().tween_property(
-			tab_icon, "position:y", default_pos_y - highlighted_icon_offset, 0.3
-		).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-		
+		# Animate to highlighted state
+		tween.tween_property(tab_icon, "scale", Vector2(enlarged_scale, enlarged_scale), 0.3)\
+			.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+		tween.parallel().tween_property(tab_icon, "position:y", default_pos_y - highlighted_icon_offset, 0.3)\
+			.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	
 		tab_label.visible = true
-		get_tree().create_tween().tween_property(
-			tab_label, "modulate:a", 1.0, 0.25
-		)
+		get_tree().create_tween().tween_property(tab_label, "modulate:a", 1.0, 0.25)
 	
 	else:
-		get_tree().create_tween().tween_property(
-			tab_icon, "scale", Vector2(default_scale, default_scale), 0.3
-		).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-		
-		get_tree().create_tween().tween_property(
-			tab_icon, "position:y", tab_icon.position.y + highlighted_icon_offset, 0.3
-		).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
-		
-		var t = get_tree().create_tween()
-		t.tween_property(tab_label, "modulate:a", 0.0, 0.05)
-		t.finished.connect(func(): tab_label.visible = false)
+		# Animate back to default position and scale
+		tween.tween_property(tab_icon, "scale", Vector2(default_scale, default_scale), 0.3)\
+			.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+		tween.parallel().tween_property(tab_icon, "position:y", default_pos_y, 0.3)\
+			.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	
+		# Fade out the label when deselected (only called when a new tab is selected)
+		var label_tween = get_tree().create_tween()
+		label_tween.tween_property(tab_label, "modulate:a", 0.0, 0.1)
+		label_tween.finished.connect(func(): tab_label.visible = false)
 	
 	_update_label_position()
 
