@@ -954,7 +954,7 @@ func has_snapped_back() -> bool:
 			and not is_outside_left_boundary()
 			and not is_outside_right_boundary()
 		)
-		return inside_bounds and velocity.is_zero_approx()
+		return inside_bounds
 	else:
 		# if overdragging is disabled, it's always clamped
 		return true
